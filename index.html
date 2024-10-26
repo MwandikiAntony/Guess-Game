@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Fruit Guessing Game made by Antony</title>
+   
+</head>
+<body>
+    <div class="wrapper">
+        <div id="container">
+            <h1>Word Guessing Game</h1>
+            <button onclick="startGame()">Start Game</button>
+            <p>Guess the Fruit's Name:</p>
+            <div id="word"></div>
+            <input type="text" id="guessInput" placeholder="Enter a letter" maxlength="1">
+            <button onclick="checkGuess()">Guess</button>
+            <p id="message"></p>
+            <p>Remaining guesses: <span id="remainingGuesses"></span></p>
+        </div>
+        <div id="second-div">
+            <iframe id="backgroundMusic" src="https://dl.dropboxusercontent.com/scl/fi/xmdt6yoxgjb1jg1lbzax0/Shape-of-You-Pagal-
+            World.Com.In.mp3?rlkey=mdylz18qkxfv3kuwizsznblca&st=7mc9rgau&dl=0"></iframe>
+        </div>
+    </div>
+
+
+
+    <script>
+        alert("You can also listen song while playing");
+        
+        let words = ["apple", "banana", "cherry", "mango", "grapes","pineapple","pomegranate",
+        "coconut","kiwi","orange", "papaya", "blueberry", "pear", "watermelon", "apricot", "berry", "guava",
+        "gapefruit", "plum", "lemon", "raspberry", "fig"];
+        let selectedWord = '';
+        let guessedWord = [];
+        let remainingGuesses = 6;
+
+        function startGame() {
+            selectedWord = words[Math.floor(Math.random() * words.length)];
+            guessedWord = Array(selectedWord.length).fill('_');
+            remainingGuesses = 6;
+            document.getElementById('word').textContent = guessedWord.join(' ');
+            document.getElementById('remainingGuesses').textContent = remainingGuesses;
+            document.getElementById('message').textContent = '';
+            document.getElementById('guessInput').value = '';
+        }
+
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const guess = guessInput.value.toLowerCase();
+            
+            if (guess && selectedWord.includes(guess)) {
+                for (let i = 0; i < selectedWord.length; i++) {
+                    if (selectedWord[i] === guess) {
+                        guessedWord[i] = guess;
+                    }
+                }
+                document.getElementById('word').textContent = guessedWord.join(' ');
+            } else {
+                remainingGuesses--;
+                document.getElementById('remainingGuesses').textContent = remainingGuesses;
+            }
+
+            guessInput.value = '';
+            
+            if (!guessedWord.includes('_')) {
+                document.getElementById('message').textContent = 'You Win!';
+            } else if (remainingGuesses === 0) {
+                document.getElementById('message').textContent = `Game Over! The word was "${selectedWord}"`;
+            }
+        }
+
+        // Function to handle Enter key press
+        document.getElementById('guessInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        
+    </script>
+</body>
+</html>
